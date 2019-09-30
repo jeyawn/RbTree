@@ -1,3 +1,16 @@
+/*
+ * =============================================================================
+ *
+ *       Filename:  rbtree_api.h
+ *
+ *    Description:  api for rbtree to use.
+ *
+ *        Created:  09/30/2019 11:39:34 PM
+ *
+ *         Author:  Ye jianyong, jeyawn@126.com
+ *
+ * =============================================================================
+ */
 #ifndef __RBTREE_API_H__
 #define __RBTREE_API_H__
 
