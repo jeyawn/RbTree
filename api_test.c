@@ -1,17 +1,17 @@
 /*
  * =============================================================================
  *
- *       Filename:  rbtree-tst.c
+ *       Filename:  api_test.c
  *
- *    Description:  rbtree testcase.
+ *    Description:  test code for rbtree_api to use.
  *
- *        Created:  09/02/2012 11:39:34 PM
+ *        Created:  09/30/2019 11:39:34 PM
  *
- *         Author:  Fu Haiping (forhappy), haipingf@gmail.com
- *        Company:  ICT ( Institute Of Computing Technology, CAS )
+ *         Author:  Ye jianyong, jeyawn@126.com
  *
  * =============================================================================
  */
+
 
 #include "rbtree.h"
 #include <stdio.h>
