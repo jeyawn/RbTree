@@ -51,12 +51,26 @@ void doRbTreeTest()
     for(index = 0; index < ret; index++) {
         printf("---->{%ld}\n", (long)RbTreeGetKeyFromNode(userNodeList[index]));
     }
+
+    RbTreeClear(userRbTree);
+    printf("after clear treesize: %d\n", RbTreeGetSize(userRbTree));
+    RbTreeInsert(userRbTree, MK_KEY(1), MK_VALUE("1"));
+    RbTreeInsert(userRbTree, MK_KEY(10), MK_VALUE("10"));
+    RbTreeInsert(userRbTree, MK_KEY(5), MK_VALUE("5"));
+    RbTreeInsert(userRbTree, MK_KEY(7), MK_VALUE("7"));
+    RbTreeInsert(userRbTree, MK_KEY(4), MK_VALUE("4"));
+    RbTreeInsert(userRbTree, MK_KEY(3), MK_VALUE("3"));
+    RbTreeInsert(userRbTree, MK_KEY(9), MK_VALUE("9"));
+    printf("after insert treesize: %d\n", RbTreeGetSize(userRbTree));
+    ret = RbTreeGetNodeListBetween(userRbTree, userNodeList, 3, 3, 12);
+    printf("we got size:%d\n", ret);
+    for(index = 0; index < ret; index++) {
+        printf("---->{%ld}\n", (long)RbTreeGetKeyFromNode(userNodeList[index]));
+    }
+    free(userNodeList);
     RbTreeDestory(userRbTree);
     printf("doRbTreeTest end\n");
 }
-
-
-#define NUM_NODES 32
 
 int main()
 {

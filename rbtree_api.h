@@ -29,6 +29,11 @@ UserRbTree RbTreeCreate(CompareKeyFun compareFun);
 void RbTreeDestory(UserRbTree userRbTree);
 
 /**
+    remove all the node in rbtree
+**/
+void RbTreeClear(UserRbTree userRbTree);
+
+/**
     search value in rbtree instance
     userKey: the key want to search
     pUserNode: the node that equal userKey. You can use RbTreeGetValueFromNode to get the value in the node

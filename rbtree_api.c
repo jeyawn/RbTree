@@ -93,6 +93,16 @@ void RbTreeDestory(UserRbTree userRbTree) {
 	}
 }
 
+void RbTreeClear(UserRbTree userRbTree)
+{
+	UserRbTreeImpl_t *pUserRbTreeImpl = userRbTree;
+	if(pUserRbTreeImpl) {
+        struct rb_node *node = pUserRbTreeImpl->tree.rb_node;
+        deleteNode(node);
+        pUserRbTreeImpl->tree = RB_ROOT;
+        pUserRbTreeImpl->nodeNum = 0;
+	}    
+}
 
 int RbTreeSearch(UserRbTree userRbTree, UserKey userKey, UserNode *pUserNode)
 {
