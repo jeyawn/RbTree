@@ -13,14 +13,16 @@ typedef void * UserNode;
 **/
 typedef int (*CompareKeyFun)(UserKey key1, UserKey key2);
 
+typedef void (*DeleteValueObjectFun)(UserValue userValue);
+
 /**
     create rbtree
     compareFun: the compare function for key.
     If it is NULL, a default compare function will be used just compare key value in format of integer
-
+    deleteValueObjFun: the function to release value object when going to destory or clean
     return: the instance for rbtree
 **/
-UserRbTree RbTreeCreate(CompareKeyFun compareFun);
+UserRbTree RbTreeCreate(CompareKeyFun compareFun, DeleteValueObjectFun deleteValueObjFun);
 
 /**
     destory rbtree

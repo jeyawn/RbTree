@@ -20,22 +20,30 @@
 #include <string.h>
 #include "rbtree_api.h"
 
+static void DeleteValueObject(UserValue userValue) {
+    if(userValue) {
+        free(userValue);
+        printf("free ok for [%p]", userValue);
+    }
+}
+
 void doRbTreeTest()
 {
     int ret, index;
     UserKey minUserKey, maxUserKey;
     UserNode userNode;
-    UserRbTree userRbTree = RbTreeCreate(NULL);
+    UserRbTree userRbTree = RbTreeCreate(NULL, DeleteValueObject);
     if(userRbTree == NULL) {
         return;
     }
-    RbTreeInsert(userRbTree, MK_KEY(1), MK_VALUE("1"));
-    RbTreeInsert(userRbTree, MK_KEY(10), MK_VALUE("10"));
-    RbTreeInsert(userRbTree, MK_KEY(5), MK_VALUE("5"));
-    RbTreeInsert(userRbTree, MK_KEY(7), MK_VALUE("7"));
-    RbTreeInsert(userRbTree, MK_KEY(4), MK_VALUE("4"));
-    RbTreeInsert(userRbTree, MK_KEY(3), MK_VALUE("3"));
-    RbTreeInsert(userRbTree, MK_KEY(9), MK_VALUE("9"));
+    RbTreeInsert(userRbTree, MK_KEY(1), MK_VALUE(strdup("1")));
+    RbTreeInsert(userRbTree, MK_KEY(10), MK_VALUE(strdup("10")));
+    RbTreeInsert(userRbTree, MK_KEY(5), MK_VALUE(strdup("5")));
+    RbTreeInsert(userRbTree, MK_KEY(7), MK_VALUE(strdup("7")));
+    RbTreeInsert(userRbTree, MK_KEY(4), MK_VALUE(strdup("4")));
+    RbTreeInsert(userRbTree, MK_KEY(3), MK_VALUE(strdup("3")));
+    RbTreeInsert(userRbTree, MK_KEY(9), MK_VALUE(strdup("9")));
+
     printf("treesize: %d\n", RbTreeGetSize(userRbTree));
     RbTreeDump(userRbTree);
     RbTreeSearch(userRbTree, MK_KEY(4), &userNode);
@@ -54,15 +62,15 @@ void doRbTreeTest()
 
     RbTreeClear(userRbTree);
     printf("after clear treesize: %d\n", RbTreeGetSize(userRbTree));
-    RbTreeInsert(userRbTree, MK_KEY(1), MK_VALUE("1"));
-    RbTreeInsert(userRbTree, MK_KEY(10), MK_VALUE("10"));
-    RbTreeInsert(userRbTree, MK_KEY(5), MK_VALUE("5"));
-    RbTreeInsert(userRbTree, MK_KEY(7), MK_VALUE("7"));
-    RbTreeInsert(userRbTree, MK_KEY(4), MK_VALUE("4"));
-    RbTreeInsert(userRbTree, MK_KEY(3), MK_VALUE("3"));
-    RbTreeInsert(userRbTree, MK_KEY(9), MK_VALUE("9"));
+    RbTreeInsert(userRbTree, MK_KEY(1), MK_VALUE(strdup("1")));
+    RbTreeInsert(userRbTree, MK_KEY(10), MK_VALUE(strdup("10")));
+    RbTreeInsert(userRbTree, MK_KEY(5), MK_VALUE(strdup("5")));
+    RbTreeInsert(userRbTree, MK_KEY(7), MK_VALUE(strdup("7")));
+    RbTreeInsert(userRbTree, MK_KEY(4), MK_VALUE(strdup("4")));
+    RbTreeInsert(userRbTree, MK_KEY(3), MK_VALUE(strdup("3")));
+    RbTreeInsert(userRbTree, MK_KEY(9), MK_VALUE(strdup("9")));
     printf("after insert treesize: %d\n", RbTreeGetSize(userRbTree));
-    ret = RbTreeGetNodeListBetween(userRbTree, userNodeList, 3, 3, 12);
+    ret = RbTreeGetNodeListBetween(userRbTree, userNodeList, 3, (UserKey)3, (UserKey)12);
     printf("we got size:%d\n", ret);
     for(index = 0; index < ret; index++) {
         printf("---->{%ld}\n", (long)RbTreeGetKeyFromNode(userNodeList[index]));

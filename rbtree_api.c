@@ -35,8 +35,9 @@
 #endif
 typedef struct UserRbTreeImpl {
 	struct rb_root tree;
-    CompareKeyFun compareKeyFun;
     int nodeNum;
+    CompareKeyFun compareKeyFun;
+    DeleteValueObjectFun deleteValueObjectFun;
 }UserRbTreeImpl_t;
 
 typedef struct UserNodeImpl {
@@ -58,7 +59,7 @@ static int compareKeyDefault(UserKey key1, UserKey key2) {
 }
 
 
-UserRbTree RbTreeCreate(CompareKeyFun compareFun) {
+UserRbTree RbTreeCreate(CompareKeyFun compareFun, DeleteValueObjectFun deleteValueObjFun) {
 	UserRbTreeImpl_t *userRbTreeImpl = malloc(sizeof(UserRbTreeImpl_t));
 	if(userRbTreeImpl) {
         RECORD_MEM(1, userRbTreeImpl);
@@ -69,15 +70,21 @@ UserRbTree RbTreeCreate(CompareKeyFun compareFun) {
         else {
             userRbTreeImpl->compareKeyFun = compareKeyDefault;
         }
+        userRbTreeImpl->deleteValueObjectFun = deleteValueObjFun;
         userRbTreeImpl->nodeNum = 0;
 	}
 	return userRbTreeImpl;
 }
 
-static void deleteNode(struct rb_node *node) {
+static void deleteNode(DeleteValueObjectFun deleteValueObjectFun, struct rb_node *node) {
     if(node) {
-        deleteNode(node->rb_left);
-        deleteNode(node->rb_right);
+        UserNodeImpl_t *data = (UserNodeImpl_t *)node;
+        API_DEBUG("going to delete node value[%p, %p]\n", deleteValueObjectFun, data->value);
+        if(deleteValueObjectFun && data->value) {
+           deleteValueObjectFun(data->value); 
+        }
+        deleteNode(deleteValueObjectFun, node->rb_left);
+        deleteNode(deleteValueObjectFun, node->rb_right);
         RECORD_MEM(0, node);
         free(node);
     }
@@ -87,7 +94,7 @@ void RbTreeDestory(UserRbTree userRbTree) {
 	UserRbTreeImpl_t *pUserRbTreeImpl = userRbTree;
 	if(pUserRbTreeImpl) {
         struct rb_node *node = pUserRbTreeImpl->tree.rb_node;
-        deleteNode(node);
+        deleteNode(pUserRbTreeImpl->deleteValueObjectFun, node);
         RECORD_MEM(0, pUserRbTreeImpl);
 		free(pUserRbTreeImpl);
 	}
@@ -98,7 +105,7 @@ void RbTreeClear(UserRbTree userRbTree)
 	UserRbTreeImpl_t *pUserRbTreeImpl = userRbTree;
 	if(pUserRbTreeImpl) {
         struct rb_node *node = pUserRbTreeImpl->tree.rb_node;
-        deleteNode(node);
+        deleteNode(pUserRbTreeImpl->deleteValueObjectFun, node);
         pUserRbTreeImpl->tree = RB_ROOT;
         pUserRbTreeImpl->nodeNum = 0;
 	}    
