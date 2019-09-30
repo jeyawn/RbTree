@@ -26,6 +26,9 @@ typedef void * UserNode;
 **/
 typedef int (*CompareKeyFun)(UserKey key1, UserKey key2);
 
+/**
+    delete function for user value
+**/
 typedef void (*DeleteValueObjectFun)(UserValue userValue);
 
 /**
